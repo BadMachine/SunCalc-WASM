@@ -54,61 +54,67 @@ export const ready = /* #__PURE__ */ new Promise<void>(async (resolve, reject) =
 
 // Wrapper API.
 
-export function getMoonIllumination(timestamp: number): Illumination {
+export function add(n: number): number {
 	if (!exports) {
 		throw new Error('WebAssembly not yet initialized: await "ready" export.');
 	}
-	return exports.getMoonIllumination(timestamp);
+	return exports.add(n);
 }
-
-export function getMoonPosition(timestamp: number, latitude: number, longitude: number): Position {
-	if (!exports) {
-		throw new Error('WebAssembly not yet initialized: await "ready" export.');
-	}
-	return exports.getMoonPosition(timestamp, latitude, longitude);
-}
-
-export function getMoonCoords(d: number): Coords { //geocentric ecliptic coordinates of the moon
-	if (!exports) {
-		throw new Error('WebAssembly not yet initialized: await "ready" export.');
-	}
-	return exports.moonCoords(d);
-}
-
-export function getTimes(timestamp: number, latitude: number, longitude: number, height: number = 0): SunTimes {
-	if (!exports) {
-		throw new Error('WebAssembly not yet initialized: await "ready" export.');
-	}
-	return exports.getTimes(timestamp, latitude, longitude, height);
-}
-
-export function getPosition(timestamp: number, latitude: number, longitude: number): Position {
-	if (!exports) {
-		throw new Error('WebAssembly not yet initialized: await "ready" export.');
-	}
-	return exports.getPosition(timestamp, latitude, longitude);
-}
-
-export function sunCoords(timestamp: number): Coords {
-	if (!exports) {
-		throw new Error('WebAssembly not yet initialized: await "ready" export.');
-	}
-	return exports.sunCoords(timestamp);
-}
-
-export function fromJulian(timestamp: number): bigint {
-	if (!exports) {
-		throw new Error('WebAssembly not yet initialized: await "ready" export.');
-	}
-	return exports.fromJulian(timestamp);
-}
-
-export function toJulian(timestamp: number): number {
-	if (!exports) {
-		throw new Error('WebAssembly not yet initialized: await "ready" export.');
-	}
-	return exports.toJulian(timestamp);
-}
-
+// export function getMoonIllumination(timestamp: number): Illumination {
+// 	if (!exports) {
+// 		throw new Error('WebAssembly not yet initialized: await "ready" export.');
+// 	}
+// 	return exports.getMoonIllumination(timestamp);
+// }
+//
+// export function getMoonPosition(timestamp: number, latitude: number, longitude: number): Position {
+// 	if (!exports) {
+// 		throw new Error('WebAssembly not yet initialized: await "ready" export.');
+// 	}
+// 	return exports.getMoonPosition(timestamp, latitude, longitude);
+// }
+//
+// export function getMoonCoords(d: number): Coords { //geocentric ecliptic coordinates of the moon
+// 	if (!exports) {
+// 		throw new Error('WebAssembly not yet initialized: await "ready" export.');
+// 	}
+// 	return exports.moonCoords(d);
+// }
+//
+// export function getTimes(timestamp: number, latitude: number, longitude: number, height: number = 0): SunTimes {
+// 	if (!exports) {
+// 		throw new Error('WebAssembly not yet initialized: await "ready" export.');
+// 	}
+// 	return exports.getTimes(timestamp, latitude, longitude, height);
+// }
+//
+// export function getPosition(timestamp: number, latitude: number, longitude: number): Position {
+// 	if (!exports) {
+// 		throw new Error('WebAssembly not yet initialized: await "ready" export.');
+// 	}
+// 	return exports.getPosition(timestamp, latitude, longitude);
+// }
+//
+// export function sunCoords(timestamp: number): Coords {
+// 	if (!exports) {
+// 		throw new Error('WebAssembly not yet initialized: await "ready" export.');
+// 	}
+// 	return exports.sunCoords(timestamp);
+// }
+//
+// export function fromJulian(timestamp: number): bigint {
+// 	if (!exports) {
+// 		throw new Error('WebAssembly not yet initialized: await "ready" export.');
+// 	}
+// 	return exports.fromJulian(timestamp);
+// }
+//
+// export function toJulian(timestamp: number): number {
+// 	if (!exports) {
+// 		throw new Error('WebAssembly not yet initialized: await "ready" export.');
+// 	}
+// 	return exports.toJulian(timestamp);
+// }
+//
 
 
