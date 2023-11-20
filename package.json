@@ -3,13 +3,15 @@
   "version": "1.0.6",
   "main": "build/suncalc-release.js",
   "scripts": {
+    "build": "npm run asbuild && npm run build:node",
+    "build:node": "microbundle build --target node --format modern,cjs --raw --no-compress --output build/suncalc-wasm-node.js --external node:fs/promises",
     "test": "node tests",
     "asbuild:debug": "asc assembly/index.ts --target debug",
     "asbuild:release": "asc assembly/index.ts --target release",
     "asbuild": "npm run asbuild:debug && npm run asbuild:release -Ospeed",
     "start": "npx serve ."
   },
-  "types": "./build/suncalc-release.d.ts",
+  "types": "./build/index.d.ts",
   "author": "BadMachine",
   "license": "ISC",
   "description": "",
@@ -23,16 +25,19 @@
     "suncalc-wasm",
     "webassebly"
   ],
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "nodeArguments": [
+      "--loader=ts-node/esm"
+    ]
+  },
   "files": [
-    "build/suncalc-release.wasm",
-    "build/suncalc-release.d.ts",
-    "build/suncalc-release.js"
+    "build/suncalc-wasm-node.js",
+    "build/suncalc.js",
+    "build/index.d.ts"
   ],
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./build/release.js",
-      "types": "./build/release.d.ts"
-    }
-  }
+  "exports": "./build/suncalc-wasm-node.js"
 }

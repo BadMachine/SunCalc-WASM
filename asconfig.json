@@ -7,8 +7,8 @@
       "debug": true
     },
     "release": {
-      "outFile": "build/suncalc-release.wasm",
-      "textFile": "build/suncalc-release.wat",
+      "outFile": "build/suncalc.wasm",
+      "textFile": "build/suncalc.wat",
       "sourceMap": true,
       "optimizeLevel": 3,
       "shrinkLevel": 0,
@@ -17,6 +17,6 @@
     }
   },
   "options": {
-    "bindings": "esm"
+    "bindings": "raw"
   }
 }
