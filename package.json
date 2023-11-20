@@ -17,6 +17,18 @@
     "@types/node": "^20.9.2",
     "assemblyscript": "^0.27.19"
   },
+  "keywords": [
+    "wasm",
+    "suncalc",
+    "suncalc-wasm",
+    "webassebly"
+  ],
+  "files": [
+    "build/release.wasm",
+    "build/release.d.ts",
+    "build/release.js"
+
+  ],
   "type": "module",
   "exports": {
     ".": {
