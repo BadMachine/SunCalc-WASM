@@ -1,7 +1,7 @@
 {
   "name": "suncalc-wasm",
   "version": "1.0.8",
-  "main": "build/suncalc.js",
+  "main": "build/suncalc-default.modern.js.js",
   "scripts": {
     "build": "npm run asbuild && npm run build:compat && npm run build:node && npm run build:default",
     "build:compat": "microbundle build --target web --format modern,cjs --raw --no-compress --no-sourcemap --output build/suncalc-compat.js --external ./suncalc.wasm --alias ./wasm=./wasm-compat --define WASM_BASE64=`base64 -i build/suncalc.wasm`",
@@ -36,11 +36,6 @@
       "--loader=ts-node/esm"
     ]
   },
-  "files": [
-    "build/suncalc-node.js",
-    "build/suncalc.js",
-    "build/index.d.ts"
-  ],
   "type": "module",
   "exports": {
     "compat": {
