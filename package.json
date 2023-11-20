@@ -1,0 +1,27 @@
+{
+  "name": "suncalc-wasm",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests",
+    "asbuild:debug": "asc assembly/index.ts --target debug",
+    "asbuild:release": "asc assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:debug && npm run asbuild:release",
+    "start": "npx serve ."
+  },
+  "types": "./build/release.d.ts",
+  "author": "BadMachine",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^20.9.2",
+    "assemblyscript": "^0.27.19"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./build/release.js",
+      "types": "./build/release.d.ts"
+    }
+  }
+}
