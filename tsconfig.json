@@ -10,5 +10,5 @@
     "target": "ESNext",
     "declaration": true,
     "strict": true
-  },
+  }
 }

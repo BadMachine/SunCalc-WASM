@@ -1,7 +1,9 @@
 {
   "name": "suncalc-wasm",
   "version": "1.0.9",
-  "main": "build/suncalc-default.modern.js.js",
+  "sideEffects": false,
+  "types": "./build/index.d.ts",
+  "main": "./build/suncalc-node.cjs",
   "scripts": {
     "build": "npm run asbuild && npm run build:compat && npm run build:node && npm run build:default",
     "build:compat": "microbundle build --target web --format modern,cjs --raw --no-compress --no-sourcemap --output build/suncalc-compat.js --external ./suncalc.wasm --alias ./wasm=./wasm-compat --define WASM_BASE64=`base64 -i build/suncalc.wasm`",
@@ -14,7 +16,6 @@
     "asbuild": "npm run asbuild:debug && npm run asbuild:release -Ospeed",
     "start": "npx serve ."
   },
-  "types": "./build/index.d.ts",
   "author": "BadMachine",
   "license": "ISC",
   "description": "",
