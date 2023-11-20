@@ -1,10 +1,13 @@
 {
   "name": "suncalc-wasm",
   "version": "1.0.7",
-  "main": "build/suncalc-release.js",
+  "main": "build/suncalc.js",
   "scripts": {
-    "build": "npm run asbuild && npm run build:node",
-    "build:node": "microbundle build --target node --format modern,cjs --raw --no-compress --output build/suncalc-wasm-node.js --external node:fs/promises",
+    "build": "npm run asbuild && npm run build:compat && npm run build:node && npm run build:default",
+    "build:compat": "microbundle build --target web --format modern,cjs --raw --no-compress --no-sourcemap --output build/suncalc-compat.js --external ./suncalc.wasm --alias ./wasm=./wasm-compat --define WASM_BASE64=`base64 -i build/suncalc.wasm`",
+    "build:node": "microbundle build --target node --format modern,cjs --raw --no-compress --no-sourcemap --output build/suncalc-node.js --external node:fs/promises --alias ./wasm=./wasm-node",
+    "build:default": "microbundle build --target web --format modern,cjs --raw --no-compress --output build/suncalc-default.js --external ./suncalc.wasm --alias ./wasm=./wasm-default",
+    "clean": "rm build/*",
     "test": "node tests",
     "asbuild:debug": "asc assembly/index.ts --target debug",
     "asbuild:release": "asc assembly/index.ts --target release",
@@ -22,7 +25,7 @@
   "keywords": [
     "wasm",
     "suncalc",
-    "suncalc-wasm",
+    "suncalc",
     "webassebly"
   ],
   "ava": {
@@ -34,10 +37,26 @@
     ]
   },
   "files": [
-    "build/suncalc-wasm-node.js",
+    "build/suncalc-node.js",
     "build/suncalc.js",
     "build/index.d.ts"
   ],
   "type": "module",
-  "exports": "./build/suncalc-wasm-node.js"
+  "exports": {
+    "compat": {
+      "types": "./build/index.d.ts",
+      "require": "./build/suncalc-compat.cjs",
+      "default": "./build/suncalc-compat.modern.js"
+    },
+    "node": {
+      "types": "./build/index.d.ts",
+      "require": "./build/suncalc-node.cjs",
+      "default": "./build/suncalc-node.modern.js"
+    },
+    "default": {
+      "types": "./build/index.d.ts",
+      "require": "./build/suncalc-default.cjs",
+      "default": "./build/suncalc-default.modern.js"
+    }
+  }
 }
