@@ -1,7 +1,7 @@
 {
   "name": "suncalc-wasm",
   "version": "1.0.4",
-  "main": "index.js",
+  "main": "build/suncalc-release.js",
   "scripts": {
     "test": "node tests",
     "asbuild:debug": "asc assembly/index.ts --target debug",
