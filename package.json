@@ -6,10 +6,10 @@
     "test": "node tests",
     "asbuild:debug": "asc assembly/index.ts --target debug",
     "asbuild:release": "asc assembly/index.ts --target release",
-    "asbuild": "npm run asbuild:debug && npm run asbuild:release",
+    "asbuild": "npm run asbuild:debug && npm run asbuild:release -Ospeed",
     "start": "npx serve ."
   },
-  "types": "./build/release.d.ts",
+  "types": "./build/suncalc-release.d.ts",
   "author": "BadMachine",
   "license": "ISC",
   "description": "",
@@ -24,9 +24,9 @@
     "webassebly"
   ],
   "files": [
-    "build/release.wasm",
-    "build/release.d.ts",
-    "build/release.js"
+    "build/suncalc-release.wasm",
+    "build/suncalc-release.d.ts",
+    "build/suncalc-release.js"
   ],
   "type": "module",
   "exports": {
