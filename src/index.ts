@@ -45,7 +45,7 @@ let exports: typeof __AdaptedExports;
 export const ready = /* #__PURE__ */ new Promise<void>(async (resolve, reject) => {
 	try {
 		const module = await WebAssembly.compile(await wasm);
-		exports = await instantiate(module as BufferSource, { env: undefined });
+		exports = await instantiate(module as BufferSource, { env: import.meta.url });
 		resolve();
 	} catch (e) {
 		reject(e);
