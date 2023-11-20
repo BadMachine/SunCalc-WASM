@@ -1,6 +1,6 @@
 {
   "name": "suncalc-wasm",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "build/suncalc-release.js",
   "scripts": {
     "build": "npm run asbuild && npm run build:node",
