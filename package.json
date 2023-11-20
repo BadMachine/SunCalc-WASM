@@ -1,6 +1,6 @@
 {
   "name": "suncalc-wasm",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "sideEffects": false,
   "types": "./build/index.d.ts",
   "main": "./build/suncalc-node.cjs",
