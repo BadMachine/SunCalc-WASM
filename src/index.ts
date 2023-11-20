@@ -1,4 +1,4 @@
-import wasm from './wasm';
+const wasm = /* #__PURE__ */fetch( /* #__PURE__ */new URL('./suncalc.wasm', import.meta.url));
 import { instantiate, __AdaptedExports } from '../build/suncalc';
 
 
@@ -44,7 +44,7 @@ let exports: typeof __AdaptedExports;
 /* Promise resolving when WebAssembly is ready. */
 export const ready = /* #__PURE__ */ new Promise<void>(async (resolve, reject) => {
 	try {
-		const module = await WebAssembly.compile(await wasm);
+		const module = await WebAssembly.compile(await wasm as unknown as ArrayBuffer);
 		exports = await instantiate(module as BufferSource, { env: import.meta.url });
 		resolve();
 	} catch (e) {
