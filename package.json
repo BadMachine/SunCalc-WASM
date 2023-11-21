@@ -1,6 +1,6 @@
 {
   "name": "suncalc-wasm",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "sideEffects": false,
   "types": "./lib/rlease.d.ts",
   "main": "./lib/release.js",
