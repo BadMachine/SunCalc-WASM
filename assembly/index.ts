@@ -1,5 +1,3 @@
-declare function print(n: i32): void;
-
 class Position {
   azimuth: f64;
   altitude: f64;
@@ -12,7 +10,7 @@ class SunTimes {
   nadir: Timestamp;
   sunrise: Timestamp;
   sunset: Timestamp;
-  sunrise_end: Timestamp;
+  sunriseEnd: Timestamp;
   sunsetStart: Timestamp;
   dawn: Timestamp;
   dusk: Timestamp;
@@ -36,7 +34,7 @@ class Illumination {
   angle: f64;
 }
 
-type Timestamp = u64;
+type Timestamp = f64;
 
 // date/time constants and conversions
 const MILLISECONDS_PER_DAY: u32 = 1000 * 60 * 60 * 24;
@@ -53,16 +51,16 @@ const atan2 = Math.atan2;
 const asin = Math.asin;
 const acos = Math.acos;
 const round = Math.round;
-export function toJulian(timestamp: number): f64 {
-  return <f64>timestamp / <f64>MILLISECONDS_PER_DAY - 0.5 as f64 + <f64>J1970
+export function toJulian(timestamp: Timestamp): f64 {
+  return timestamp as f64 / MILLISECONDS_PER_DAY - 0.5 as f64 + J1970
 }
 
 export function fromJulian(j: f64): Timestamp {
-  return round((j + 0.5 - J1970 as f64) * MILLISECONDS_PER_DAY as f64) as i64
+  return round((j + 0.5 - J1970 as f64) * MILLISECONDS_PER_DAY as f64)
 }
 
-export function toDays(timestamp: number): f64 {
-  return toJulian(timestamp) - <f64>J2000;
+export function toDays(timestamp: Timestamp): f64 {
+  return toJulian(timestamp) - J2000;
 }
 
 // general calculations for position
@@ -84,11 +82,11 @@ export function altitude(h: f64, phi: f64, dec: f64): f64 {
   return asin(sin(phi) * sin(dec) + cos(phi) * cos(dec) * cos(h));
 }
 
-function siderealTime(d: f64, lw: f64): f64 {
+export function siderealTime(d: f64, lw: f64): f64 {
   return ((280.16 + 360.985_623_5 * d) * TO_RAD) - lw
 }
 
-function astro_refraction(h: f64): f64 {
+export function astro_refraction(h: f64): f64 {
   let hh = h < 0.0 ? 0.0 : h;
 
   return tan(0.0002967 / (hh + 0.00312536 / (hh + 0.08901179)))
@@ -96,7 +94,7 @@ function astro_refraction(h: f64): f64 {
 
 // general sun calculations
 
-function solar_mean_anomaly(d: f64): f64 {
+export function solar_mean_anomaly(d: f64): f64 {
   return (357.5291 + 0.985_600_28 * d) * TO_RAD
 }
 
@@ -158,10 +156,10 @@ export function sunCoords(d: f64): Coords {
 /// * `lat`       - [latitude](https://en.wikipedia.org/wiki/Latitude) in degrees.
 /// * `lon`       - [longitude](https://en.wikipedia.org/wiki/Longitude) in degrees.
 /// calculates the sun position for a given date and latitude/longitude
-export function getPosition(timestamp: number, lat: f64, lon: f64): Position {
+export function getPosition(timestamp: Timestamp, lat: f64, lon: f64): Position {
   let lw = -lon * TO_RAD;
   let phi = lat * TO_RAD;
-  let d = toDays(<f64>timestamp);
+  let d = toDays(timestamp);
   let m = solar_mean_anomaly(d);
   let l = eclipticLongitude(m);
   let dec = declination(l, 0.0);
@@ -204,13 +202,13 @@ class SunTime {
   }
 }
 
-export function getTimes(timestamp: number, lat: f64, lon: f64, h: f64 = 0): SunTimes {
+export function getTimes(timestamp: Timestamp, lat: f64, lon: f64, h: f64 = 0): SunTimes {
   let height = h;
   let lw = -lon * TO_RAD;
   let phi = lat * TO_RAD;
   let dh = observerAngle(height);
 
-  let d = toDays(<f64>timestamp);
+  let d = toDays(timestamp);
   let n = julianCycle(d, lw);
   let ds = approxTransit(0.0, lw, n);
 
@@ -248,7 +246,7 @@ export function getTimes(timestamp: number, lat: f64, lon: f64, h: f64 = 0): Sun
   result.sunrise = sunrise;
   result.sunset = sunset;
   result.sunsetStart = sunsetStart;
-  result.sunrise_end = sunrise_end;
+  result.sunriseEnd = sunrise_end;
   result.dawn = dawn;
   result.dusk = dusk;
   result.nauticalDawn = nauticalDawn;
@@ -296,7 +294,7 @@ export function moonCoords(d: f64): Coords {
 export function getMoonPosition(timestamp: number, lat: f64, lon: f64): Position {
   let lw = TO_RAD * -lon;
   let phi = TO_RAD * lat;
-  let d = toDays(<f64>timestamp);
+  let d = toDays(timestamp);
 
   let c = moonCoords(d);
 
@@ -319,8 +317,8 @@ export function getMoonPosition(timestamp: number, lat: f64, lon: f64): Position
 
 
 /// Calculates the moon illumination, phase, and angle for a given date
-export function getMoonIllumination(timestamp: number): Illumination {
-  let d = toDays(<f64>timestamp);
+export function getMoonIllumination(timestamp: Timestamp): Illumination {
+  let d = toDays(timestamp);
   let s = sunCoords(d);
   let m = moonCoords(d);
   let a = lunarMeanAnomaly(d);
