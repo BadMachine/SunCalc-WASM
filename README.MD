@@ -22,11 +22,11 @@ in the [Twilight article on Wikipedia](http://en.wikipedia.org/wiki/Twilight).
 ## Usage example
 ### 1. Import module
 ```javascript
-import SunCalc from 'suncalc-wasm';
+import suncalc from 'suncalc-wasm';
 ```
 ### 2. Instantiate 
 ```javascript
-const suncalc = await SunCalc();
+const SunCalc = await suncalc();
 ```
 ### 3. Use
 ```typescript
@@ -48,7 +48,7 @@ $ npm install suncalc-wasm
 ```
 
 ```typescript
-import SunCalc from 'suncalc-wasm';
+import suncalc from 'suncalc-wasm';
 ```
 
 
