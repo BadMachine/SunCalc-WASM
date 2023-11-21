@@ -19,7 +19,9 @@
     "assemblyscript": "^0.27.19"
   },
   "files": [
-    "lib/**/*.*"
+    "lib/release.wasm",
+    "lib/release.js",
+    "lib/release.d.ts"
   ],
   "keywords": [
     "wasm",
