@@ -38,8 +38,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./build/release.js",
-      "types": "./build/release.d.ts"
+      "import": "./lib/release.js",
+      "types": "./lib/release.d.ts"
     }
   }
 }
