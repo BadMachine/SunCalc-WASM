@@ -2,21 +2,15 @@
   "name": "suncalc-wasm",
   "version": "1.0.17",
   "sideEffects": false,
-  "types": "./lib/index.d.ts",
-  "main": "./lib/suncalc-default.modern.js",
+  "types": "./lib/rlease.d.ts",
+  "main": "./lib/release.js",
   "scripts": {
-    "build": "npm run asbuild && npm run build:compat && npm run build:node && npm run build:browser",
-    "build:compat": "microbundle build --target web --format modern,cjs --raw --no-compress --no-sourcemap --output lib/suncalc-compat.js --external ./suncalc.wasm --alias ./wasm.env.js=./wasm.compat.js --define WASM_BASE64=`base64 -i lib/suncalc.wasm`",
-    "build:node": "microbundle build --target node --format modern,cjs --raw --no-compress --no-sourcemap --output lib/suncalc-node.js --external node:fs/promises --alias ./wasm=./wasm-node",
-    "build:browser": "microbundle build --target web --format modern,cjs --raw --no-compress --output lib/suncalc-browser.js --external ./suncalc.wasm --alias ./wasm.env.js=./wasm.browser.js",
-    "clean": "rm lib/*",
     "test": "node tests",
     "asbuild:debug": "asc assembly/index.ts --target debug",
     "asbuild:release": "asc assembly/index.ts --target release",
-    "asbuild": "npm run asbuild:debug && npm run asbuild:release -Ospeed",
+    "asbuild": "npm run asbuild:debug && npm run asbuild:release",
     "start": "npx serve ."
   },
-  "module": "./lib/suncalc-default.modern.js",
   "author": "BadMachine",
   "license": "ISC",
   "description": "",
@@ -43,20 +37,9 @@
   },
   "type": "module",
   "exports": {
-    "compat": {
-      "types": "./lib/index.d.ts",
-      "require": "./lib/suncalc-compat.cjs",
-      "default": "./lib/suncalc-compat.modern.js"
-    },
-    "node": {
-      "types": "./lib/index.d.ts",
-      "require": "./lib/suncalc-node.cjs",
-      "default": "./lib/suncalc-node.modern.js"
-    },
-    "browser": {
-      "types": "./lib/index.d.ts",
-      "require": "./lib/suncalc-browser.cjs",
-      "default": "./lib/suncalc-browser.modern.js"
+    ".": {
+      "import": "./build/release.js",
+      "types": "./build/release.d.ts"
     }
   }
 }
