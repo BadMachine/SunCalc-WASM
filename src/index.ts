@@ -1,5 +1,5 @@
-import wasm from './wasm';
-import { instantiate, __AdaptedExports } from '../build/suncalc';
+import wasm from './env.js';
+import { instantiate, __AdaptedExports } from '../lib/suncalc';
 
 
 interface Illumination {

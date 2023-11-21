@@ -1,14 +1,14 @@
 {
   "targets": {
     "debug": {
-      "outFile": "build/debug.wasm",
-      "textFile": "build/debug.wat",
+      "outFile": "lib/debug.wasm",
+      "textFile": "lib/debug.wat",
       "sourceMap": true,
       "debug": true
     },
     "release": {
-      "outFile": "build/suncalc.wasm",
-      "textFile": "build/suncalc.wat",
+      "outFile": "lib/suncalc.wasm",
+      "textFile": "lib/suncalc.wat",
       "sourceMap": true,
       "optimizeLevel": 3,
       "shrinkLevel": 0,

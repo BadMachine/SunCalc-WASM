@@ -2,21 +2,21 @@
   "name": "suncalc-wasm",
   "version": "1.0.16",
   "sideEffects": false,
-  "types": "./build/index.d.ts",
-  "main": "./build/suncalc-default.modern.js",
+  "types": "./lib/index.d.ts",
+  "main": "./lib/suncalc-default.modern.js",
   "scripts": {
-    "build": "npm run asbuild && npm run build:compat && npm run build:node && npm run build:default",
-    "build:compat": "microbundle build --target web --format modern,cjs --raw --no-compress --no-sourcemap --output build/suncalc-compat.js --external ./suncalc.wasm --alias ./wasm=./wasm-compat --define WASM_BASE64=`base64 -i build/suncalc.wasm`",
-    "build:node": "microbundle build --target node --format modern,cjs --raw --no-compress --no-sourcemap --output build/suncalc-node.js --external node:fs/promises --alias ./wasm=./wasm-node",
-    "build:default": "microbundle build --target web --format modern,cjs --raw --no-compress --output build/suncalc-default.js --external ./suncalc.wasm --alias ./wasm=./wasm-default",
-    "clean": "rm build/*",
+    "build": "npm run asbuild && npm run build:compat && npm run build:node && npm run build:browser",
+    "build:compat": "microbundle build --target web --format modern,cjs --raw --no-compress --no-sourcemap --output lib/suncalc-compat.js --external ./suncalc.wasm --alias ./wasm.env.js=./wasm.compat.js --define WASM_BASE64=`base64 -i lib/suncalc.wasm`",
+    "build:node": "microbundle build --target node --format modern,cjs --raw --no-compress --no-sourcemap --output lib/suncalc-node.js --external node:fs/promises --alias ./wasm=./wasm-node",
+    "build:browser": "microbundle build --target web --format modern,cjs --raw --no-compress --output lib/suncalc-browser.js --external ./suncalc.wasm --alias ./wasm.env.js=./wasm.browser.js",
+    "clean": "rm lib/*",
     "test": "node tests",
     "asbuild:debug": "asc assembly/index.ts --target debug",
     "asbuild:release": "asc assembly/index.ts --target release",
     "asbuild": "npm run asbuild:debug && npm run asbuild:release -Ospeed",
     "start": "npx serve ."
   },
-  "module": "./build/suncalc-default.modern.js",
+  "module": "./lib/suncalc-default.modern.js",
   "author": "BadMachine",
   "license": "ISC",
   "description": "",
@@ -24,6 +24,9 @@
     "@types/node": "^20.9.2",
     "assemblyscript": "^0.27.19"
   },
+  "files": [
+    "lib/**/*.*"
+  ],
   "keywords": [
     "wasm",
     "suncalc",
@@ -41,19 +44,19 @@
   "type": "module",
   "exports": {
     "compat": {
-      "types": "./build/index.d.ts",
-      "require": "./build/suncalc-compat.cjs",
-      "default": "./build/suncalc-compat.modern.js"
+      "types": "./lib/index.d.ts",
+      "require": "./lib/suncalc-compat.cjs",
+      "default": "./lib/suncalc-compat.modern.js"
     },
     "node": {
-      "types": "./build/index.d.ts",
-      "require": "./build/suncalc-node.cjs",
-      "default": "./build/suncalc-node.modern.js"
+      "types": "./lib/index.d.ts",
+      "require": "./lib/suncalc-node.cjs",
+      "default": "./lib/suncalc-node.modern.js"
     },
-    "default": {
-      "types": "./build/index.d.ts",
-      "require": "./build/suncalc-default.cjs",
-      "default": "./build/suncalc-default.modern.js"
+    "browser": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/suncalc-browser.cjs",
+      "default": "./lib/suncalc-browser.modern.js"
     }
   }
 }
