@@ -53,34 +53,34 @@ const atan2 = Math.atan2;
 const asin = Math.asin;
 const acos = Math.acos;
 const round = Math.round;
-function toJulian(timestamp: number): f64 {
+export function toJulian(timestamp: number): f64 {
   return <f64>timestamp / <f64>MILLISECONDS_PER_DAY - 0.5 as f64 + <f64>J1970
 }
 
-function fromJulian(j: f64): Timestamp {
+export function fromJulian(j: f64): Timestamp {
   return round((j + 0.5 - J1970 as f64) * MILLISECONDS_PER_DAY as f64) as i64
 }
 
-function toDays(timestamp: number): f64 {
+export function toDays(timestamp: number): f64 {
   return toJulian(timestamp) - <f64>J2000;
 }
 
 // general calculations for position
 
-function rightAscension(l: f64, b: f64): f64 {
+export function rightAscension(l: f64, b: f64): f64 {
 
   return atan2(sin(l) * cos(OBLIQUITY_OF_EARTH) - tan(b) * sin(OBLIQUITY_OF_EARTH), cos(l) );
 }
 
-function declination(l: f64, b: f64): f64 {
+export function declination(l: f64, b: f64): f64 {
   return asin((sin(b) * cos(OBLIQUITY_OF_EARTH) + cos(b) * sin(OBLIQUITY_OF_EARTH) * sin(l)))
 }
 
-function azimuth(h: f64, phi: f64, dec: f64): f64 {
+export function azimuth(h: f64, phi: f64, dec: f64): f64 {
   return atan2(sin(h), cos(h) * sin(phi) - tan(dec) * cos(phi))
 }
 
-function altitude(h: f64, phi: f64, dec: f64): f64 {
+export function altitude(h: f64, phi: f64, dec: f64): f64 {
   return asin(sin(phi) * sin(dec) + cos(phi) * cos(dec) * cos(h));
 }
 
@@ -100,11 +100,11 @@ function solar_mean_anomaly(d: f64): f64 {
   return (357.5291 + 0.985_600_28 * d) * TO_RAD
 }
 
-function equationOfCenter(m: f64): f64 {
+export function equationOfCenter(m: f64): f64 {
   return (1.9148 * sin(1.0 * m) + 0.02 * sin(2.0 * m) + 0.0003 * sin(3.0 * m)) * TO_RAD;
 }
 
-function eclipticLongitude(m: f64): f64 {
+export function eclipticLongitude(m: f64): f64 {
   return m + equationOfCenter(m) + PERIHELION_OF_EARTH + PI;
 }
 
@@ -112,7 +112,7 @@ function eclipticLongitude(m: f64): f64 {
 
 const J0: f64 = 0.0009;
 
-function julianCycle(d: f64, lw: f64): f64 {
+export function julianCycle(d: f64, lw: f64): f64 {
   return round(d - J0 - lw / (2.0 * PI))
 }
 
@@ -158,7 +158,7 @@ export function sunCoords(d: f64): Coords {
 /// * `lat`       - [latitude](https://en.wikipedia.org/wiki/Latitude) in degrees.
 /// * `lon`       - [longitude](https://en.wikipedia.org/wiki/Longitude) in degrees.
 /// calculates the sun position for a given date and latitude/longitude
-function getPosition(timestamp: number, lat: f64, lon: f64): Position {
+export function getPosition(timestamp: number, lat: f64, lon: f64): Position {
   let lw = -lon * TO_RAD;
   let phi = lat * TO_RAD;
   let d = toDays(<f64>timestamp);
@@ -204,7 +204,7 @@ class SunTime {
   }
 }
 
-function getTimes(timestamp: number, lat: f64, lon: f64, h: f64 = 0): SunTimes {
+export function getTimes(timestamp: number, lat: f64, lon: f64, h: f64 = 0): SunTimes {
   let height = h;
   let lw = -lon * TO_RAD;
   let phi = lat * TO_RAD;
@@ -263,19 +263,19 @@ function getTimes(timestamp: number, lat: f64, lon: f64, h: f64 = 0): SunTimes {
 
 // general moon calculations, based on http://aa.quae.nl/en/reken/hemelpositie.html formulas
 
-function lunarMeanAnomaly(d: f64): f64 {
+export function lunarMeanAnomaly(d: f64): f64 {
   return (134.963 + 13.064993 * d) * TO_RAD;
 }
 
-function lunarEclipticLongitude(d: f64): f64 {
+export function lunarEclipticLongitude(d: f64): f64 {
   return (218.316 + 13.176396 * d) * TO_RAD;
 }
 
-function lunarMeanDistance(d: f64): f64 {
+export function lunarMeanDistance(d: f64): f64 {
   return (93.272 + 13.229350 * d) * TO_RAD;
 }
 
-function moonCoords(d: f64): Coords {
+export function moonCoords(d: f64): Coords {
   let l = lunarEclipticLongitude(d);
   let m = lunarMeanAnomaly(d);
   let f = lunarMeanDistance(d);
@@ -293,7 +293,7 @@ function moonCoords(d: f64): Coords {
 }
 
 /// Calculates the moon position for a given date and latitude/longitude
-function getMoonPosition(timestamp: number, lat: f64, lon: f64): Position {
+export function getMoonPosition(timestamp: number, lat: f64, lon: f64): Position {
   let lw = TO_RAD * -lon;
   let phi = TO_RAD * lat;
   let d = toDays(<f64>timestamp);
@@ -319,7 +319,7 @@ function getMoonPosition(timestamp: number, lat: f64, lon: f64): Position {
 
 
 /// Calculates the moon illumination, phase, and angle for a given date
-function getMoonIllumination(timestamp: number): Illumination {
+export function getMoonIllumination(timestamp: number): Illumination {
   let d = toDays(<f64>timestamp);
   let s = sunCoords(d);
   let m = moonCoords(d);
@@ -347,20 +347,3 @@ function getMoonIllumination(timestamp: number): Illumination {
 
   return illumination
 }
-
-export default {
-  memory,
-  toJulian,
-  fromJulian,
-  toDays,
-  azimuth,
-  sunCoords,
-  getPosition,
-  getTimes,
-  lunarMeanAnomaly,
-  lunarEclipticLongitude,
-  lunarMeanDistance,
-  moonCoords,
-  getMoonPosition,
-  getMoonIllumination,
-};
